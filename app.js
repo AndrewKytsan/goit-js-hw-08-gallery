@@ -134,20 +134,20 @@ const ChangeOnArrow = function(e){
 const key = e.code;
 switch(key){
 case 'ArrowLeft':
-  galleryItems.forEach((el,index,arr)=>{
-if(el.original===modalImage.src){
-  if(index===0){
-    return
+  for(let i=0; i<=galleryItems.length-1; i++){
+    if(galleryItems[i].original===modalImage.src){
+      if(i===0){
+        return
+      }
+      modalImage.src = galleryItems[i-1].original;
+    
+    } 
+  
   }
-  modalImage.src = arr[index-1].original;
- 
-}
-
-});
-break;
-
+  break;
+  
 case 'ArrowRight':
-  for(let i=0; i<galleryItems.length-1; i++){
+  for(let i=0; i<=galleryItems.length-1; i++){
 if(galleryItems[i].original===modalImage.src){
 if(i===galleryItems.length-1){
   return
