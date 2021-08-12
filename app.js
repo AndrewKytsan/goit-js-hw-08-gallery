@@ -102,8 +102,8 @@ function openModal (e){
   if(e.target.classList.contains("gallery__image"))
   modalIsOpen.classList.add('is-open')
   modalImage.setAttribute('src', e.target.dataset.source )
-  window.addEventListener('keydown',onRightKeyChange)
-  window.addEventListener('keydown',onLeftKeyChange)
+  window.addEventListener('keydown',ChangeOnArrow)
+
 }
 //пунк 5-6  
 
@@ -113,8 +113,8 @@ closeButton.addEventListener('click',closeModal)
 function closeModal() {
   modalIsOpen.classList.remove('is-open')
 modalImage.setAttribute('src', " ")
-  window.removeEventListener('keydown',onRightKeyChange)
-  window.removeEventListener('keydown',onLeftKeyChange)
+  window.removeEventListener('keydown',ChangeOnArrow)
+
 }
   
 
@@ -130,26 +130,34 @@ function closeModalEsc(e){
   }
 }
 //перелистывание галереи
-const imgArr = galleryItems.map((e)=>e.original)
-let currentIndex =0;
-
-function onRightKeyChange(e) {
-  if(e.code ==='ArrowRight'){
-    if(currentIndex === imgArr.length-1){
-      currentIndex =0
-    }
-    else{ currentIndex +=1} 
+const ChangeOnArrow = function(e){
+const key = e.code;
+switch(key){
+case 'ArrowLeft':
+  galleryItems.forEach((el,index,arr)=>{
+if(el.original===modalImage.src){
+  if(index===0){
+    return
   }
-  modalImage.src =  imgArr[currentIndex];
-}
-    
-function onLeftKeyChange (e) {
-    if(e.code==='ArrowLeft'){
-if( currentIndex ===0){
-  currentIndex = imgArr.length - 1
-}
-else{currentIndex -= 1}
-}
-modalImage.src =  imgArr[currentIndex];
-}
+  modalImage.src = arr[index-1].original;
  
+}
+
+});
+break;
+
+case 'ArrowRight':
+  for(let i=0; i<galleryItems.length-1; i++){
+if(galleryItems[i].original===modalImage.src){
+if(i===galleryItems.length-1){
+  return
+}
+modalImage.src = galleryItems[i+1].original;
+break;
+}
+}
+}
+}
+
+
+
